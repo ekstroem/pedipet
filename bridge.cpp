@@ -115,8 +115,13 @@ extern "C" double SinglePointVC(individual *indlist, int traitnum, int markernum
   nInd = listlen(indlist);
 
   // Initialize IBD scores
-  IBD = new MATRIX[nPed](1,1);
-  x   = new MATRIX[nPed](1,1);
+  IBD = new MATRIX[nPed];
+  x   = new MATRIX[nPed];
+
+  for (i=0; i<nPed; i++) {
+    IBD[i].Resize(1,1);
+    x[i].Resize(1,1);
+  }
 
   // Read the matrix file
 #ifndef BYPEDIGREE
@@ -542,8 +547,13 @@ extern "C" double Paper1Function2(individual *indlist, int traitnum)
   nPed = listlen(Pedigrees);
   freelist(Pedigrees);
 
-  IBD = new MATRIX[nPed](9,9);
-  KK2 = new MATRIX[nPed](9,9);
+  IBD = new MATRIX[nPed];
+  KK2 = new MATRIX[nPed];
+
+  for (i=0; i<nPed; i++) {
+    IBD[i].Resize(9,9);
+    KK2[i].Resize(9,9);
+  }
 
   MATRIX VARI(nMarkers, nMarkers);              // Holds the V matrix
   MATRIX VARIK2(nMarkers, nMarkers);              // Holds the V matrix for K2
@@ -730,7 +740,11 @@ extern "C" double ComplexMixed(individual *indlist, int traitnum)
   nPed = listlen(Pedigrees);
   freelist(Pedigrees);
 
-  RELAP = new MATRIX[nPed](nRela,3);
+  RELAP = new MATRIX[nPed];
+
+  for (i = 0 ; i<nPed; i++) {
+    RELAP[i].Resize(nRela,3);
+  }
 
   MATRIX VARI(nMarkers, nMarkers);              // Holds the V matrix
   MATRIX VARIK2(nMarkers, nMarkers);              // Holds the V matrix for K2
@@ -851,8 +865,13 @@ void FullSibsIBD(individual *indlist, char *filename, int step) {
   MATRIX *IBD, *K2, result(nPers, nPers);
 
   // Calculates the IBD-matrices
-  IBD = new MATRIX[numberofmarkers()](nPers, nPers);
-  K2  = new MATRIX[numberofmarkers()](nPers, nPers);
+  IBD = new MATRIX[numberofmarkers()];
+  K2  = new MATRIX[numberofmarkers()];
+
+  for (i=0; i < numberofmarkers(); i++) {
+    IBD[i].Resize(nPers, nPers);
+    K2[i].Resize(nPers, nPers);	
+  }
 
   nPairs = 0;
 
